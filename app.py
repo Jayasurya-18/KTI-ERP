@@ -4,7 +4,7 @@ from database import get_connection
 print(" App Started")
 
 
-app = Flask(__name__, template_folder="Templates")
+app = Flask(__name__, template_folder="templates")
 
 # Database Connection Test
 try:

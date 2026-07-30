@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Behaviour Management</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+</head>
+
+
+<body class="bg-light">
+
+
+<div class="container mt-5">
+
+
+<div class="card shadow">
+
+
+<div class="card-header bg-dark text-white">
+
+<h3>📝 Student Behaviour Management</h3>
+
+</div>
+
+
+<div class="card-body">
+
+
+<!-- Behaviour Form -->
+
+<form action="/save_behaviour" method="POST">
+
+
+<div class="row">
+
+
+<!-- Student -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Student
+</label>
+
+<select
+name="student_id"
+class="form-select"
+required>
+
+<option value="">
+Select Student
+</option>
+
+{% for student in students %}
+
+<option value="{{ student.student_id }}">
+
+{{ student.student_name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<!-- Date -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Behaviour Date
+</label>
+
+<input
+type="date"
+name="behaviour_date"
+class="form-control"
+required>
+
+</div>
+
+
+<!-- Behaviour -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Behaviour
+</label>
+
+<select
+name="behaviour"
+class="form-select"
+required>
+
+<option value="">
+Select Behaviour
+</option>
+
+<option>
+Excellent
+</option>
+
+<option>
+Good
+</option>
+
+<option>
+Average
+</option>
+
+<option>
+Needs Improvement
+</option>
+
+</select>
+
+</div>
+
+
+<!-- Faculty -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Faculty
+</label>
+
+<input
+type="text"
+name="faculty"
+class="form-control"
+placeholder="Enter Faculty Name"
+required>
+
+</div>
+
+
+<!-- Remarks -->
+
+<div class="col-md-12 mb-3">
+
+<label class="form-label">
+Remarks
+</label>
+
+<textarea
+name="remarks"
+class="form-control"
+rows="3"
+placeholder="Enter Behaviour Remarks">
+</textarea>
+
+</div>
+
+
+</div>
+
+
+<button
+type="submit"
+class="btn btn-dark">
+
+💾 Save Behaviour
+
+</button>
+
+
+<a
+href="/dashboard"
+class="btn btn-secondary">
+
+Back to Dashboard
+
+</a>
+
+
+</form>
+
+
+<hr class="my-4">
+
+
+<!-- Behaviour History -->
+
+<h4 class="mb-3">
+
+📋 Behaviour History
+
+</h4>
+
+
+<div class="table-responsive">
+
+
+<table
+class="table table-bordered table-hover">
+
+
+<thead class="table-dark">
+
+
+<tr>
+
+<th>ID</th>
+
+<th>Student</th>
+
+<th>Date</th>
+
+<th>Behaviour</th>
+
+<th>Faculty</th>
+
+<th>Remarks</th>
+<th>Action</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody>
+
+
+{% for item in behaviours %}
+
+
+<tr>
+
+
+<td>
+{{ item.behaviour_id }}
+</td>
+
+
+<td>
+{{ item.student_name }}
+</td>
+
+
+<td>
+{{ item.behaviour_date }}
+</td>
+
+
+<td>
+
+{% if item.behaviour == "Excellent" %}
+
+<span class="badge bg-success">
+Excellent
+</span>
+
+{% elif item.behaviour == "Good" %}
+
+<span class="badge bg-primary">
+Good
+</span>
+
+{% elif item.behaviour == "Average" %}
+
+<span class="badge bg-warning text-dark">
+Average
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+Needs Improvement
+</span>
+
+{% endif %}
+
+</td>
+
+
+<td>
+{{ item.faculty }}
+</td>
+
+
+<td>
+{{ item.remarks or "-" }}
+</td>
+
+<td>
+
+<a
+href="/edit_behaviour/{{ item.behaviour_id }}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a
+href="/delete_behaviour/{{ item.behaviour_id }}"
+class="btn btn-danger btn-sm"
+onclick="return confirm('Are you sure you want to delete this behaviour record?')">
+
+Delete
+
+</a>
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>

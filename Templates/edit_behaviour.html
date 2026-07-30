@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Edit Behaviour</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<div class="card shadow">
+
+<div class="card-header bg-warning">
+
+<h3>✏️ Edit Behaviour Record</h3>
+
+</div>
+
+<div class="card-body">
+
+<form
+action="/update_behaviour/{{ behaviour.behaviour_id }}"
+method="POST">
+
+<div class="mb-3">
+
+<label>Student ID</label>
+
+<input
+type="number"
+name="student_id"
+class="form-control"
+value="{{ behaviour.student_id }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Behaviour Date</label>
+
+<input
+type="date"
+name="behaviour_date"
+class="form-control"
+value="{{ behaviour.behaviour_date }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Behaviour</label>
+
+<select
+name="behaviour"
+class="form-select"
+required>
+
+<option
+{% if behaviour.behaviour == "Excellent" %}selected{% endif %}>
+Excellent
+</option>
+
+<option
+{% if behaviour.behaviour == "Good" %}selected{% endif %}>
+Good
+</option>
+
+<option
+{% if behaviour.behaviour == "Average" %}selected{% endif %}>
+Average
+</option>
+
+<option
+{% if behaviour.behaviour == "Needs Improvement" %}selected{% endif %}>
+Needs Improvement
+</option>
+
+</select>
+
+</div>
+
+<div class="mb-3">
+
+<label>Faculty</label>
+
+<input
+type="text"
+name="faculty"
+class="form-control"
+value="{{ behaviour.faculty }}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label>Remarks</label>
+
+<textarea
+name="remarks"
+class="form-control"
+rows="3">{{ behaviour.remarks or '' }}</textarea>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-success">
+
+Update Behaviour
+
+</button>
+
+<a
+href="/behaviour"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

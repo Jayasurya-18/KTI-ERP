@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>KTI ERP Dashboard</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+body {
+    background: #f5f7fb;
+    font-family: "Segoe UI", sans-serif;
+}
+
+
+/* Sidebar */
+
+.sidebar {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #111827, #1e293b);
+    padding: 25px 18px;
+    position: sticky;
+    top: 0;
+}
+
+.logo-box {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 25px;
+}
+
+.logo-box h3 {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo-box small {
+    color: #94a3b8;
+}
+
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background: #2563eb;
+    color: white;
+    transform: translateX(3px);
+}
+
+
+.logout {
+    margin-top: 35px;
+}
+
+
+/* Main */
+
+.main-content {
+    padding: 0;
+}
+
+
+/* Navbar */
+
+.topbar {
+    background: white;
+    padding: 18px 30px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.topbar h4 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.topbar small {
+    color: #64748b;
+}
+
+
+/* Dashboard */
+
+.dashboard-content {
+    padding: 30px;
+}
+
+
+.welcome-box {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+}
+
+.welcome-box h2 {
+    font-weight: 700;
+}
+
+.welcome-box p {
+    margin: 0;
+    opacity: 0.85;
+}
+
+
+/* Cards */
+
+.stat-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    padding: 22px;
+    height: 100%;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+}
+
+
+.icon-blue {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.icon-green {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.icon-orange {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+.icon-purple {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+
+.icon-dark {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.icon-cyan {
+    background: #cffafe;
+    color: #0891b2;
+}
+
+
+.stat-title {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 18px;
+}
+
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 5px 0 15px;
+}
+
+
+.stat-card a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* Quick Access */
+
+.section-title {
+    font-weight: 700;
+    margin-top: 35px;
+    margin-bottom: 18px;
+}
+
+
+.quick-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-decoration: none;
+    color: #1e293b;
+    display: block;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+    transition: 0.3s;
+}
+
+
+.quick-card:hover {
+    transform: translateY(-4px);
+    color: #2563eb;
+}
+
+
+.quick-card i {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+.sidebar {
+    min-height: auto;
+    position: relative;
+}
+
+.dashboard-content {
+    padding: 20px;
+}
+
+.topbar {
+    padding: 15px 20px;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container-fluid">
+
+<div class="row">
+
+
+<!-- SIDEBAR -->
+
+<div class="col-md-2 sidebar text-white">
+
+
+<div class="logo-box">
+
+<h3>🚀 KTI ERP</h3>
+
+<small>Institute Management System</small>
+
+</div>
+
+
+<div class="sidebar-menu">
+
+
+<a href="/dashboard" class="active">
+
+<i class="bi bi-grid-1x2-fill"></i>
+
+Dashboard
+
+</a>
+
+
+<a href="/students">
+
+<i class="bi bi-people-fill"></i>
+
+Students
+
+</a>
+
+
+<a href="/attendance">
+
+<i class="bi bi-calendar-check-fill"></i>
+
+Attendance
+
+</a>
+
+
+<a href="/fees">
+
+<i class="bi bi-cash-stack"></i>
+
+Fees Management
+
+</a>
+
+
+<a href="/behaviour">
+
+<i class="bi bi-journal-text"></i>
+
+Behaviour
+
+</a>
+
+
+<a href="/sessions">
+
+<i class="bi bi-book-fill"></i>
+
+Sessions
+
+</a>
+
+
+<div class="logout">
+
+<a href="/" class="text-danger">
+
+<i class="bi bi-box-arrow-left"></i>
+
+Logout
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- MAIN CONTENT -->
+
+<div class="col-md-10 main-content">
+
+
+<!-- TOPBAR -->
+
+<div class="topbar d-flex justify-content-between align-items-center">
+
+<div>
+
+<h4>Knowledge Trading Institute ERP</h4>
+
+<small>Institute Management Dashboard</small>
+
+</div>
+
+
+<div class="text-end">
+
+<i class="bi bi-person-circle fs-3 text-primary"></i>
+
+</div>
+
+</div>
+
+
+
+<!-- DASHBOARD -->
+
+<div class="dashboard-content">
+
+
+<!-- Welcome -->
+
+<div class="welcome-box">
+
+<h2>
+Welcome to KTI ERP 👋
+</h2>
+
+<p>
+Manage students, attendance, fees, behaviour and sessions from one place.
+</p>
+
+</div>
+
+
+
+<!-- Statistics -->
+
+<h5 class="section-title">
+
+📊 Overview
+
+</h5>
+
+
+<div class="row g-4">
+
+
+<!-- Students -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Total Students
+</div>
+
+<div class="stat-value">
+{{ total_students }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-blue">
+
+<i class="bi bi-people-fill"></i>
+
+</div>
+
+</div>
+
+
+<a href="/students" class="text-primary">
+
+View Students →
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- Fees Collected -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Fees Collected
+</div>
+
+<div class="stat-value">
+₹ {{ total_collected }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-green">
+
+<i class="bi bi-currency-rupee"></i>
+
+</div>
+
+</div>
+
+
+<a href="/fees" class="text-success">
+
+View Fees →
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- Pending -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Pending Balance
+</div>
+
+<div class="stat-value">
+₹ {{ total_balance }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-orange">
+
+<i class="bi bi-hourglass-split"></i>
+
+</div>
+
+</div>
+
+
+<a href="/fees" class="text-warning">
+
+Check Pending →
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- Attendance -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Today's Attendance
+</div>
+
+<div class="stat-value">
+{{ today_attendance }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-purple">
+
+<i class="bi bi-calendar-check-fill"></i>
+
+</div>
+
+</div>
+
+
+<a href="/attendance" class="text-purple">
+
+View Attendance →
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- Behaviour -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Behaviour Records
+</div>
+
+<div class="stat-value">
+{{ total_behaviour }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-dark">
+
+<i class="bi bi-journal-text"></i>
+
+</div>
+
+</div>
+
+
+<a href="/behaviour" class="text-dark">
+
+View Behaviour →
+
+</a>
+
+</div>
+
+</div>
+
+
+
+<!-- Sessions -->
+
+<div class="col-lg-4 col-md-6">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<div>
+
+<div class="stat-title">
+Today's Sessions
+</div>
+
+<div class="stat-value">
+{{ today_sessions }}
+</div>
+
+</div>
+
+
+<div class="stat-icon icon-cyan">
+
+<i class="bi bi-book-fill"></i>
+
+</div>
+
+</div>
+
+
+<a href="/sessions" class="text-info">
+
+Manage Sessions →
+
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- QUICK ACCESS -->
+
+<h5 class="section-title">
+
+⚡ Quick Access
+
+</h5>
+
+
+<div class="row g-4">
+
+
+<div class="col-md-3">
+
+<a href="/students" class="quick-card">
+
+<i class="bi bi-person-plus-fill text-primary"></i>
+
+<h6>Add Student</h6>
+
+<small class="text-muted">
+Register a new student
+</small>
+
+</a>
+
+</div>
+
+
+<div class="col-md-3">
+
+<a href="/attendance" class="quick-card">
+
+<i class="bi bi-calendar2-check-fill text-success"></i>
+
+<h6>Mark Attendance</h6>
+
+<small class="text-muted">
+Record today's attendance
+</small>
+
+</a>
+
+</div>
+
+
+<div class="col-md-3">
+
+<a href="/fees" class="quick-card">
+
+<i class="bi bi-wallet2 text-warning"></i>
+
+<h6>Record Fees</h6>
+
+<small class="text-muted">
+Manage student payments
+</small>
+
+</a>
+
+</div>
+
+
+<div class="col-md-3">
+
+<a href="/sessions" class="quick-card">
+
+<i class="bi bi-plus-circle-fill text-info"></i>
+
+<h6>Create Session</h6>
+
+<small class="text-muted">
+Schedule a new session
+</small>
+
+</a>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</body>
+
+</html>

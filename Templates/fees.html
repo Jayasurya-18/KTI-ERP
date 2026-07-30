@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Fees Management</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+<h3>💰 Fees Management</h3>
+
+</div>
+
+<div class="card-body">
+
+<form action="/save_fees" method="POST">
+
+<!-- Student -->
+
+<div class="mb-3">
+
+<label>Student</label>
+
+<select
+name="student_id"
+id="student_id"
+class="form-select"
+required
+onchange="loadStudentFees()">
+
+<option value="">Select Student</option>
+
+{% for student in students %}
+
+<option
+value="{{ student.student_id }}"
+data-fees="{{ student.fees or 0 }}">
+
+{{ student.student_name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+<div class="row">
+
+<!-- Payment Date -->
+
+<div class="col-md-4 mb-3">
+
+<label>Payment Date</label>
+
+<input
+type="date"
+name="payment_date"
+class="form-control"
+required>
+
+</div>
+
+
+<!-- Total Fees -->
+
+<div class="col-md-4 mb-3">
+
+<label>Total Fees</label>
+
+<input
+type="number"
+id="total_fees"
+name="total_fees"
+class="form-control"
+placeholder="Auto Loaded"
+readonly
+required>
+
+</div>
+
+
+<!-- Paid Amount -->
+
+<div class="col-md-4 mb-3">
+
+<label>Paid Amount</label>
+
+<input
+type="number"
+id="paid_amount"
+name="paid_amount"
+class="form-control"
+placeholder="Enter Paid Amount"
+required>
+
+</div>
+
+
+<!-- Balance -->
+
+<div class="col-md-4 mb-3">
+
+<label>Balance</label>
+
+<input
+type="number"
+id="balance"
+name="balance"
+class="form-control"
+placeholder="Auto Calculated"
+readonly>
+
+</div>
+
+
+<!-- Payment Mode -->
+
+<div class="col-md-4 mb-3">
+
+<label>Payment Mode</label>
+
+<select
+name="payment_mode"
+class="form-select">
+
+<option>Cash</option>
+
+<option>UPI</option>
+
+<option>Card</option>
+
+<option>Bank Transfer</option>
+
+</select>
+
+</div>
+
+
+<!-- Remarks -->
+
+<div class="col-md-4 mb-3">
+
+<label>Remarks</label>
+
+<input
+type="text"
+name="remarks"
+class="form-control"
+placeholder="Enter Remarks">
+
+</div>
+
+</div>
+
+
+<button
+type="submit"
+class="btn btn-success">
+
+Save Fees
+
+</button>
+
+</form>
+
+
+<hr class="my-4">
+
+
+<!-- Fees History -->
+
+<h4>Fees History</h4>
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>ID</th>
+
+<th>Student</th>
+
+<th>Total</th>
+
+<th>Paid</th>
+
+<th>Balance</th>
+
+<th>Mode</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+{% for fee in fees %}
+
+<tr>
+
+<td>
+{{ fee.fee_id }}
+</td>
+
+<td>
+{{ fee.student_name }}
+</td>
+
+<td>
+₹ {{ fee.total_fees }}
+</td>
+
+<td>
+₹ {{ fee.paid_amount }}
+</td>
+
+<td>
+₹ {{ fee.balance }}
+</td>
+
+<td>
+{{ fee.payment_mode }}
+</td>
+<td>
+
+<a
+href="/fee_bill/{{ fee.fee_id }}"
+class="btn btn-primary btn-sm">
+
+🧾 Generate Bill
+
+</a>
+
+</td>
+<td>
+
+<a
+href="/edit_fee/{{ fee.fee_id }}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+<a
+href="/delete_fee/{{ fee.fee_id }}"
+class="btn btn-danger btn-sm"
+onclick="return confirm('Are you sure you want to delete this fee record?')">
+
+Delete
+
+</a>
+
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- JavaScript -->
+
+<script>
+
+// Student select pannumbodhu
+// Database-la irukkura fees automatic-a load aagum
+
+function loadStudentFees() {
+
+    const studentSelect =
+        document.getElementById("student_id");
+
+    const selectedOption =
+        studentSelect.options[
+            studentSelect.selectedIndex
+        ];
+
+    const studentFees =
+        selectedOption.getAttribute("data-fees");
+
+    document.getElementById("total_fees").value =
+        studentFees || 0;
+
+    // Total Fees load aana udane
+    // Balance calculate aagum
+
+    calculateBalance();
+
+}
+
+
+// Get input fields
+
+const totalFees =
+    document.getElementById("total_fees");
+
+const paidAmount =
+    document.getElementById("paid_amount");
+
+const balance =
+    document.getElementById("balance");
+
+
+// Calculate Balance
+
+function calculateBalance() {
+
+    const total =
+        Number(totalFees.value) || 0;
+
+    const paid =
+        Number(paidAmount.value) || 0;
+
+
+    // Paid amount total fees vida adhigama irundha
+
+    if (paid > total) {
+
+        alert(
+            "Paid Amount cannot be greater than Total Fees"
+        );
+
+        paidAmount.value = "";
+
+        balance.value = total;
+
+        paidAmount.focus();
+
+        return;
+
+    }
+
+
+    // Balance calculation
+
+    balance.value =
+        total - paid;
+
+}
+
+
+// Paid amount change aagumbodhu
+// Balance automatic-a update aagum
+
+paidAmount.addEventListener(
+    "input",
+    calculateBalance
+);
+
+</script>
+
+
+</body>
+
+</html>

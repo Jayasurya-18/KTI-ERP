@@ -3,7 +3,8 @@ from database import get_connection
 
 print(" App Started")
 
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder="Templates")
 
 # Database Connection Test
 try:
